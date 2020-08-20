@@ -1,6 +1,6 @@
 # halobench
 
-## Simple MPI benchmark of various methods for doing 3D halo swapping
+## Simple MPI benchmark of various 3D halo swapping approaches
 
 The code sets up a 3D array of processes and swaps halo data up and
 down in all three directions. It uses a number of different methods -
