@@ -1,0 +1,20 @@
+#!/bin/bash --login
+#PBS -A d171
+#PBS -N halobench
+#PBS -l walltime=00:01:00
+#PBS -l place=excl
+
+# You will need to change the value of "select" below if you run on
+# more than one node (e.g. on more than 36 processes); the value of
+# "ncpus" *is always 36*.
+
+#PBS -l select=4:ncpus=36
+
+module load mpt
+module load intel-compilers-18
+  
+cd $PBS_O_WORKDIR
+
+# Default to 36 Processes Per Node
+
+mpiexec_mpt -ppn 36 -n 144 ./halobench

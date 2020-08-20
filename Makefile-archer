@@ -1,0 +1,41 @@
+MF=	Makefile-archer
+
+#ARCHER
+FC=	ftn
+
+FFLAGS=	-O3
+LFLAGS=
+
+EXE=	halobench
+
+SRC= \
+	halobench.f90 \
+	haloswap.f90 \
+	haloparams.f90 \
+	benchclock.f90
+
+
+#
+# No need to edit below this line
+#
+
+.SUFFIXES:
+.SUFFIXES: .f90 .o
+
+OBJ=	$(SRC:.f90=.o)
+
+.f90.o:
+	$(FC) $(FFLAGS) -c $<
+
+all:	$(EXE)
+
+$(EXE):	$(OBJ)
+	$(FC) $(FFLAGS) -o $@ $(OBJ) $(LFLAGS)
+
+$(OBJ):	$(MF)
+
+halobench.o:	haloparams.o haloswap.o benchclock.o
+haloswap.o:	haloparams.o
+
+clean:
+	rm -f $(OBJ) $(EXE) core
