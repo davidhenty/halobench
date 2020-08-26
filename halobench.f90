@@ -26,7 +26,12 @@ program halobench
 
   logical :: reorder = .false.
 
-! Periodic boundaries
+  logical, dimension(:,:),   allocatable :: flag
+  logical, dimension(:,:,:), allocatable :: allflag
+
+  integer :: idir, idim
+
+  ! Periodic boundaries
 
   logical, dimension(ndim) :: periods = [.true., .true., .true.]
 
@@ -58,7 +63,10 @@ program halobench
 
   dims(:) = 0
 
-! Set 3D processor grid
+  allocate(flag(ndir, ndim))
+  allocate(allflag(ndir, ndim, size))
+
+  ! Set 3D processor grid
 
   call MPI_Dims_create(size, ndim, dims, ierr)
 
@@ -161,8 +169,41 @@ program halobench
            write(*,*) "Secs = ", time, ", bwidth = ", iorate, " MiB/s"
         end if
 
-        call checkrecvdata(recvbuf, nbuf, cartcomm)
+        call checkrecvdata(flag, recvbuf, nbuf, cartcomm)
+        
+!        if (any(flag(:,:) .eqv. .false.)) then
+!           write(*,*) "Error on process ", rank
+!        end if
 
+        call MPI_Gather(flag,    ndir*ndim, MPI_LOGICAL, &
+                        allflag, ndir*ndim, MPI_LOGICAL, &
+                        0, comm, ierr)
+
+        if (rank == 0) then
+           
+           if (any(allflag(:,:,:) .eqv. .false.)) then
+
+              write(*,*)
+              write(*,*) "ERROR: halo data did not verify"
+              write(*,*)
+              
+              do idir = 1, ndir
+                 do idim = 1, ndim
+
+                    if (any(allflag(idir, idim,:) .eqv. .false.)) then
+                       write(*,*) count(.not. allflag(idir, idim, :)), &
+                            " processes failed for idir, idim = ", &
+                            idir, ", ", idim
+                    end if
+
+                 end do
+              end do
+           end if
+
+           write(*,*)
+           
+        end if
+           
      end if
 
   end do

@@ -200,6 +200,7 @@ subroutine haloisendrecvwait(nrep, sendbuf, recvbuf, n, cartcomm)
 
 end subroutine haloisendrecvwait
 
+
 subroutine haloirecvsendwait(nrep, sendbuf, recvbuf, n, cartcomm)
 
   integer :: nrep, n, cartcomm
@@ -241,6 +242,7 @@ subroutine haloirecvsendwait(nrep, sendbuf, recvbuf, n, cartcomm)
   end do
 
 end subroutine haloirecvsendwait
+
 
 subroutine haloirecvisendwaitpair(nrep, sendbuf, recvbuf, n, cartcomm)
 
@@ -345,6 +347,7 @@ subroutine haloirecvisendwaitall(nrep, sendbuf, recvbuf, n, cartcomm)
 
 end subroutine haloirecvisendwaitall
 
+
 subroutine halopersist(nrep, sendbuf, recvbuf, n, cartcomm)
 
   integer :: nrep, n, cartcomm
@@ -428,6 +431,7 @@ subroutine halopersist(nrep, sendbuf, recvbuf, n, cartcomm)
 
 end subroutine halopersist
 
+
 subroutine haloneighboralltoall(nrep, sendbuf, recvbuf, n, cartcomm)
 
   integer :: nrep, n, cartcomm
@@ -453,6 +457,7 @@ subroutine haloneighboralltoall(nrep, sendbuf, recvbuf, n, cartcomm)
   end do
 
 end subroutine haloneighboralltoall
+
 
 subroutine inithalodata(rank, sendbuf, recvbuf, nbuf)
 
@@ -485,11 +490,13 @@ subroutine inithalodata(rank, sendbuf, recvbuf, nbuf)
 
 end subroutine inithalodata
 
-subroutine checkrecvdata(recvbuf, nbuf, cartcomm)
 
-  integer :: nbuf, cartcomm
+subroutine checkrecvdata(flag, recvbuf, nbuf, cartcomm)
+
+  logical, dimension(ndir, ndim) :: flag
   double precision, dimension(nbuf, ndir, ndim) :: recvbuf
-
+  integer :: nbuf, cartcomm
+  
   integer :: size, rank
   integer :: idim, idir
   
@@ -503,6 +510,8 @@ subroutine checkrecvdata(recvbuf, nbuf, cartcomm)
 
   call commdata(cartcomm, dims, periods, size, rank, coords, neighbour)
   
+  flag(:,:) = .true.
+
   do idim = 1, ndim
      do idir = 1, ndir
 
@@ -511,9 +520,12 @@ subroutine checkrecvdata(recvbuf, nbuf, cartcomm)
         call inithalodata(neighbour(idir, idim), sendbuf, nullbuf, nbuf)
 
         if(any(recvbuf(:, idir, idim) /= sendbuf(:, ndir-idir+1, idim))) then
-           write(*,*) "checkrecvdata: error for rank, idim, idir = ", &
-                rank, idim, idir
-!                "r/s = ", recvbuf(:, idir, idim), sendbuf(:, ndir-idir+1, idim) 
+!           write(*,*) "checkrecvdata: error for rank, idim, idir = ", &
+!                rank, idim, idir
+!                "r/s = ", recvbuf(:,idir,idim), sendbuf(:,ndir-idir+1,idim) 
+
+           flag(idir, idim) = .false.
+           
         end if
 
      end do
