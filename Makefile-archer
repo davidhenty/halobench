@@ -3,7 +3,7 @@ MF=	Makefile-archer
 #ARCHER
 FC=	ftn
 
-FFLAGS=	-O3
+FFLAGS=	-O3 -h noomp
 LFLAGS=
 
 EXE=	halobench
