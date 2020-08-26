@@ -13,7 +13,7 @@ module benchclock
 !
 
   integer, parameter :: intkind = int64kind
-  integer(kind = intkind) :: count,rate
+  integer(kind = intkind) :: clkcount, clkrate
 
 contains
 
@@ -25,9 +25,9 @@ double precision function benchtime()
 
   if (firstcall) dummy = benchtick()
 
-  call system_clock(count)
+  call system_clock(clkcount)
 
-  benchtime  = dble(count)*ticktime
+  benchtime  = dble(clkcount)*ticktime
 
 end function benchtime
 
@@ -37,8 +37,8 @@ double precision function benchtick()
   if (firstcall) then
 
      firstcall = .false.
-     call system_clock(count, rate)
-     ticktime = 1.0d0/dble(rate)
+     call system_clock(clkcount, clkrate)
+     ticktime = 1.0d0/dble(clkrate)
 
   end if
 
