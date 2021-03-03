@@ -38,4 +38,4 @@ halobench.o:	haloparams.o haloswap.o benchclock.o
 haloswap.o:	haloparams.o
 
 clean:
-	rm -f $(OBJ) $(EXE) core
+	rm -f $(OBJ) $(EXE) core *.mod *.MOD

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# You may want to edit the following lines: use "qos=standard" for
+# more than 2 nodes. Replace "account=dc116" below with your own
+# budget code (e.g. dc116-s1234567)
+
+#SBATCH --account=dc116
+#SBATCH --job-name=halobench
+#SBATCH --time=00:02:00
+#SBATCH --qos=short
+#SBATCH --nodes=2
+
+# You can probably leave these options mostly as they are
+
+#SBATCH --output=%x-%j.out
+#SBATCH --error=%x-%j.err
+#SBATCH --exclusive
+#SBATCH --tasks-per-node=36
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=standard
+
+module load intel-compilers-19
+module load mpt
+
+# Launch the parallel job
+
+srun --cpu-bind=cores ./halobench
