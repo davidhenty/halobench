@@ -1,4 +1,4 @@
-MF=	Makefile-archer
+MF=	Makefile-archer2
 
 #ARCHER
 FC=	ftn
