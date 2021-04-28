@@ -15,7 +15,7 @@ program halobench
   !
 
   integer, parameter :: nbuf = 10000
-  integer, parameter :: nrep = 1000
+  integer, parameter :: nrep = 10000
 
   double precision, dimension(nbuf, ndir, ndim) :: sendbuf, recvbuf
 
@@ -100,7 +100,6 @@ program halobench
         write(*,*) trim(halotest(ihalotest))
         write(*,*) divstring(1:len(trim(halotest(ihalotest))))
      end if
-
 
      call inithalodata(rank, sendbuf, recvbuf, nbuf)
 
