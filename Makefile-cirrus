@@ -1,6 +1,6 @@
 MF=	Makefile-cirrus
 
-#Cirrus - use Intel
+#Cirrus
 FC=	mpif90 -fc=ifort
 
 FFLAGS=	-O3
