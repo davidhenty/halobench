@@ -8,7 +8,6 @@
 #SBATCH --tasks-per-node=128
 #SBATCH --cpus-per-task=1
 # Replace [budget code] below with your budget code (e.g. t01)
-#SBATCH --account=z19
 #SBATCH --qos=short
 #SBATCH --partition=standard
 #SBATCH --reservation=shortqos
