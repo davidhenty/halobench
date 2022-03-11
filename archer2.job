@@ -23,8 +23,6 @@
 # echo "+------------------------------------------------------+"
 # echo
 
-module --silent load epcc-job-env
-
 # Set the number of threads to 1
 #   This prevents any threaded system libraries from automatically
 #   using threading.
