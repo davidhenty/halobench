@@ -17,4 +17,4 @@ the aim is to see which is fastest:
 
 Note that the neighbourhood collectives may fail the consistency test
 on small numbers of processes due to an unfortunate bug in some early
-implementations!
+MPI implementations!
