@@ -4,7 +4,9 @@
 
 The code sets up a 3D array of processes and swaps halo data up and
 down in all three directions. It uses a number of different methods -
-the aim is to see which is fastest:
+the aim is to see which is fastest.
+
+The approaches are:
 
 *    pairwise swapping, each dimension in turn, using MPI_Sendrecv
 *    pairwise swapping, each dimension in turn, but breaking the deadlock by splitting the processes into odd and even (here called red and black) sets: red processes send first and receive second, black processes do the opposite (this approach requires an even number of processes in each dimension)
