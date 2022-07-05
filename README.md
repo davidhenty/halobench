@@ -6,6 +6,7 @@ The code sets up a 3D array of processes and swaps halo data up and
 down in all three directions. It uses a number of different methods -
 the aim is to see which is fastest.
 
+
 The approaches are:
 
 *    pairwise swapping, each dimension in turn, using MPI_Sendrecv
