@@ -15,7 +15,7 @@ program halobench
   !
 
   integer, parameter :: nbuf = 10000
-  integer, parameter :: nrep = 10000
+  integer, parameter :: nrep = 1000
 
   double precision, dimension(nbuf, ndir, ndim) :: sendbuf, recvbuf
 
