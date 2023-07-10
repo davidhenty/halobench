@@ -170,9 +170,9 @@ program halobench
 
         call checkrecvdata(flag, recvbuf, nbuf, cartcomm)
         
-!        if (any(flag(:,:) .eqv. .false.)) then
-!           write(*,*) "Error on process ", rank
-!        end if
+        if (any(flag(:,:) .eqv. .false.)) then
+           write(*,*) "Error on process ", rank
+        end if
 
         call MPI_Gather(flag,    ndir*ndim, MPI_LOGICAL, &
                         allflag, ndir*ndim, MPI_LOGICAL, &
