@@ -7,10 +7,9 @@
 #SBATCH --nodes=8
 #SBATCH --tasks-per-node=128
 #SBATCH --cpus-per-task=1
+#SBATCH --partition=standard
 # Replace [budget code] below with your budget code (e.g. t01)
 #SBATCH --qos=short
-#SBATCH --partition=standard
-#SBATCH --reservation=shortqos
 
 # echo "+------------------------------------------------------+"
 # echo "| Start of contents of SLURM job script for job $SLURM_JOB_ID |"
@@ -28,6 +27,7 @@
 #   using threading.
 
 export OMP_NUM_THREADS=1
+export SRUN_CPUS_PER_TASK=$SLURM_CPUS_PER_TASK
 
 ulimit -s unlimited
 
