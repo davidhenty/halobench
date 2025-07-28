@@ -9,13 +9,18 @@ program halobench
   integer, parameter :: nhalotest = 8
   integer :: ihalotest
   logical :: halocalled
-  
+
   !
-  ! Set main paramemers: size of each halo and number of repetitions
+  ! Set main paramemers: size of each halo, number of repetitions of
+  ! halo swapping and total number of runs (useful to have at least
+  ! one warmup)
   !
 
-  integer, parameter :: nbuf = 10000
-  integer, parameter :: nrep = 1000
+  integer :: runloop
+
+  integer, parameter :: nbuf   = 10000
+  integer, parameter :: nrep   = 1000
+  integer, parameter :: maxrun = 3
 
   double precision, dimension(nbuf, ndir, ndim) :: sendbuf, recvbuf
 
@@ -91,7 +96,18 @@ program halobench
 
   call MPI_Cart_create(comm, ndim, dims, periods, reorder, cartcomm, ierr)
 
-  do ihalotest = 1, nhalotest
+  do runloop = 1, maxrun
+
+     if (rank == 0) then
+
+        write(*,*)
+        write(*,*) '-------------------------'
+        write(*,*) 'Benchmark run ', runloop, ' out of ', maxrun
+        write(*,*) '-------------------------'
+
+     end if
+
+     do ihalotest = 1, nhalotest
 
      halocalled = .true.
 
@@ -213,6 +229,8 @@ program halobench
      write(*,*) "--------"
      write(*,*)
   end if
+
+  end do
 
   call MPI_Finalize(ierr)
   
