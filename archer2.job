@@ -11,6 +11,10 @@
 # Replace [budget code] below with your budget code (e.g. t01)
 #SBATCH --qos=short
 
+# Delete the two SBATCH commands below if running outside of the course
+#SBATCH --qos=reservation
+#SBATCH --reservation=ta241_1808878
+
 # echo "+------------------------------------------------------+"
 # echo "| Start of contents of SLURM job script for job $SLURM_JOB_ID |"
 # echo "+------------------------------------------------------+"
